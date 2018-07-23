@@ -10,11 +10,11 @@ trait ExceptionTrait
     public function apiException($request, $e)
     {
         if($request->expectsJson()){
-            if($this->isModelException($e)){
+            if($this->isModel($e)){
                 return $this->modelResponse();
             }
 
-            if($this->isHttpException($e)){
+            if($this->isHttp($e)){
                 return $this->httpResponse();
             }
         }
@@ -22,7 +22,7 @@ trait ExceptionTrait
         return parent::render($request, $e);
     }
 
-    protected function isModelException($e)
+    protected function isModel($e)
     {
         return $e instanceof ModelNotFoundException;
     }
@@ -33,7 +33,7 @@ trait ExceptionTrait
         ], Response::HTTP_NOT_FOUND);
     }
 
-    protected function isHttpException($e)
+    protected function isHttp($e)
     {
         return $e instanceof NotFoundHttpException;
     }
